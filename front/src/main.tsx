@@ -1,10 +1,17 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+// Em App.js ou index.js
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter as Router } from "react-router-dom";
+import App from "./App";
+import { ToastProvider } from "./context/ToastContext";
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <ToastProvider>
+        <App />
+      </ToastProvider>
+    </Router>
   </React.StrictMode>,
-)
+  document.getElementById("root")
+);
