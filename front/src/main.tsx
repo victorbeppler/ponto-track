@@ -1,17 +1,15 @@
 // Em App.js ou index.js
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
-import { ToastProvider } from "./context/ToastContext";
+import { ThemeProvider } from "styled-components";
+import theme from "./styles/theme";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <ToastProvider>
-        <App />
-      </ToastProvider>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
