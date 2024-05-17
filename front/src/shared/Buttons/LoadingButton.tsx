@@ -11,15 +11,25 @@ export default function LoadingButton({
   loading,
   loadingText,
   fullWidth,
+  sx,
   ...props
 }: Props) {
   const textLoading = loadingText ?? children;
+  const combinedSX = {
+    display: "flex",
+    backgroundColor: "#FFC03D",
+    color: "black",
+    "&:hover": { backgroundColor: "#FFC03D" },
+    ...(sx || {}),
+  };
 
   return (
     <Button
       fullWidth={fullWidth}
       disableElevation
-      sx={{ display: "flex" }}
+      variant="contained"
+      disabled={loading}
+      sx={combinedSX} // Passe o objeto combinado
       {...props}
     >
       {loading && (
