@@ -11,4 +11,8 @@ services:
     ports:
       - "4005:3306"
     volumes:
-      - mysql-data:/var/lib/mysql
+      - new-mysql-data:/var/lib/mysql
+
+volumes:
+  new-mysql-data:
+    driver: local
