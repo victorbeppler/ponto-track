@@ -1,0 +1,14 @@
+version: '2'
+services:
+  mysql:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ponto-track-db
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: ponto-track-db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
