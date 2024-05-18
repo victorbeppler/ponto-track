@@ -1,9 +1,9 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { Box, Typography, Link, Container } from "@mui/material";
-import ApiBack from "../../services/base-back.js";
+// import ApiBack from "../../services/base-back.js";
 import ControlledText from "../../shared/Fields/TextField.js";
-import { useToast } from "../../context/ToastContext.js";
-import { AxiosError } from "axios";
+// import { useToast } from "../../context/ToastContext.js";
+// import { AxiosError } from "axios";
 import LoadingButton from "../../shared/Buttons/LoadingButton.js";
 
 function SignUp() {
@@ -76,7 +76,7 @@ function SignUp() {
         <FormProvider {...methods}>
           <Box
             component="form"
-            onSubmit={handleSubmit(handleLogin)}
+            // onSubmit={handleSubmit(handleLogin)}
             noValidate
             sx={{
               mt: 8,
