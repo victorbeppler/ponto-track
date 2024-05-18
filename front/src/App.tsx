@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignIn from "./pages/Signin";
 import SignUp from "./pages/Signup";
 import { ToastProvider } from "./context/ToastContext";
+import Vehicle from "./pages/vehicle";
+import UserManagement from "./pages/Users";
 
 function App() {
   return (
@@ -29,6 +31,22 @@ function App() {
           element={
             <ToastProvider>
               <SignUp />
+            </ToastProvider>
+          }
+        />
+        <Route
+          path="/vehicle"
+          element={
+            <ToastProvider>
+              <Vehicle />
+            </ToastProvider>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <ToastProvider>
+              <UserManagement />
             </ToastProvider>
           }
         />
