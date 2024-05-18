@@ -8,7 +8,8 @@ import LoadingButton from "../../shared/Buttons/LoadingButton.js";
 
 function SignUp() {
   const methods = useForm();
-  const { handleSubmit, control } = methods;
+  // handleSubmit,
+  const { control } = methods;
   // const { showToast } = useToast();
 
   // async function handleLogin(formData: unknown) {
