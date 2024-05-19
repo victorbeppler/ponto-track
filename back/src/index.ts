@@ -1,5 +1,10 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
+import userRoutes from "./routes/userRoutes";
+import customerRoutes from "./routes/customerRoutes";
+import vehicleRoutes from "./routes/vehicleRoutes";
+import trackingRoutes from "./routes/trackingRoutes";
+import { authenticateToken } from "./middleware/authMiddleware";
 
 const app = express();
 
@@ -10,6 +15,10 @@ app.use(cors());
 app.get("/status", (req: Request, res: Response) => {
   res.send({ status: "ok" });
 });
+app.use("/users", userRoutes);
+app.use("/customers", authenticateToken, customerRoutes);
+app.use("/vehicles", authenticateToken, vehicleRoutes);
+app.use("/trackings", authenticateToken, trackingRoutes);
 
 const PORT = 3005;
 
