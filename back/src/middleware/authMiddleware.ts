@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { User } from "@prisma/client";
 
 export const authenticateToken = (
   req: Request,
@@ -11,7 +12,7 @@ export const authenticateToken = (
 
   jwt.verify(token, process.env.JWT_SECRET!, (err, user) => {
     if (err) return res.sendStatus(403);
-    req.user = user as any;
+    req.user = user as User;
     next();
   });
 };
