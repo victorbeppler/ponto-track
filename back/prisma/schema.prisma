@@ -8,38 +8,59 @@ datasource db {
 }
 
 model User {
-  id       Int       @id @default(autoincrement())
-  nome     String
-  email    String    @unique
-  userVehicle UserVehicle[]
+  id               Int               @id @default(autoincrement())
+  nome             String
+  email            String            @unique
+  customers        Customer[]
+  vehicles         Vehicle[]
+  trackings        Tracking[]
+  customerVehicles CustomerVehicle[] // Adicionando a relação correspondente
+}
+
+model Customer {
+  id               Int               @id @default(autoincrement())
+  nome             String
+  email            String            @unique
+  userId           Int
+  user             User              @relation(fields: [userId], references: [id])
+  customerVehicles CustomerVehicle[]
+  trackings        Tracking[]
 }
 
 model Vehicle {
-  id        Int        @id @default(autoincrement())
-  modelo    String
-  placa     String     @unique
-  userVehicle  UserVehicle[]
-  trackings Tracking[]
+  id               Int               @id @default(autoincrement())
+  modelo           String
+  placa            String            @unique
+  userId           Int
+  user             User              @relation(fields: [userId], references: [id])
+  customerVehicles CustomerVehicle[]
+  trackings        Tracking[]
 }
 
-model UserVehicle {
-  id          Int      @id @default(autoincrement())
-  userId      Int
-  vehicleId   Int
-  date DateTime @default(now())
+model CustomerVehicle {
+  id         Int      @id @default(autoincrement())
+  customerId Int
+  vehicleId  Int
+  userId     Int
+  date       DateTime @default(now())
 
-  user    User    @relation(fields: [userId], references: [id])
-  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+  customer Customer @relation(fields: [customerId], references: [id])
+  vehicle  Vehicle  @relation(fields: [vehicleId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
 
-  @@unique([userId, vehicleId])
+  @@unique([customerId, vehicleId])
 }
 
 model Tracking {
-  id        Int      @id @default(autoincrement())
-  vehicleId Int
-  latitude  Float
-  longitude Float
-  timestamp DateTime @default(now())
+  id         Int      @id @default(autoincrement())
+  vehicleId  Int
+  latitude   Float
+  longitude  Float
+  timestamp  DateTime @default(now())
+  userId     Int
+  customerId Int
 
-  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+  vehicle  Vehicle  @relation(fields: [vehicleId], references: [id])
+  customer Customer @relation(fields: [customerId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
 }
