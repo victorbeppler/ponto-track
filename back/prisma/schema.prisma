@@ -8,14 +8,16 @@ datasource db {
 }
 
 model User {
-  id               Int               @id @default(autoincrement())
-  nome             String
-  email            String            @unique
-  customers        Customer[]
-  vehicles         Vehicle[]
-  trackings        Tracking[]
-  customerVehicles CustomerVehicle[] // Adicionando a relação correspondente
+  id                 Int              @id @default(autoincrement())
+  nome               String
+  email              String           @unique
+  password           String      
+  customers          Customer[]
+  vehicles           Vehicle[]
+  trackings          Tracking[]
+  customerVehicles   CustomerVehicle[]
 }
+
 
 model Customer {
   id               Int               @id @default(autoincrement())

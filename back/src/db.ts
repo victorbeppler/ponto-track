@@ -8,9 +8,6 @@ async function main() {
     console.log("Conexão com o banco de dados estabelecida.");
   } catch (e) {
     console.error("Erro ao conectar com o banco de dados:", e);
-  } finally {
-    await prisma.$disconnect();
-    console.log("Conexão com o banco de dados encerrada.");
   }
 }
 

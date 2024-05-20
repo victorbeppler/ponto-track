@@ -1,46 +1,51 @@
-import { useForm, FormProvider } from "react-hook-form";
+import {
+  useForm,
+  FormProvider,
+  SubmitHandler,
+  FieldValues,
+} from "react-hook-form";
 import { Box, Typography, Link, Container } from "@mui/material";
-// import ApiBack from "../../services/base-back.js";
 import ControlledText from "../../shared/Fields/TextField.js";
-// import { useToast } from "../../context/ToastContext.js";
-// import { AxiosError } from "axios";
+import { useToast } from "../../context/ToastContext.js";
+import { AxiosError } from "axios";
 import LoadingButton from "../../shared/Buttons/LoadingButton.js";
+import ApiBack from "../../services/base-back.js";
+
+type FormData = {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
 
 function SignUp() {
   const methods = useForm();
-  // handleSubmit,
-  const { control } = methods;
-  // const { showToast } = useToast();
+  const { control, handleSubmit } = methods;
+  const { showToast } = useToast();
 
-  // async function handleLogin(formData: unknown) {
-  //   try {
-  //     const response = await ApiBack.post("/user/session", formData);
-
-  //     if (response?.data.success) {
-  //       const address = response.data.user.address[0];
-  //       localStorage.setItem(
-  //         "user",
-  //         JSON.stringify({
-  //           id: response?.data?.user?.id,
-  //           name: response?.data?.user?.name,
-  //           email: response?.data?.user?.email,
-  //           birthDate: response?.data?.user?.birthDate,
-  //           phone: response?.data?.user?.phone,
-  //           cpf: response?.data?.user?.cpf,
-  //           address: address,
-  //           token: response?.data?.token,
-  //         })
-  //       );
-  //       showToast("success", "Login realizado com sucesso!", "/home");
-  //     }
-  //   } catch (err) {
-  //     if ((err as AxiosError)?.response?.status == 400) {
-  //       showToast("error", "E-mail ou senha inválidos, Tente novamente!");
-  //     } else {
-  //       showToast("error", "Ocorreu um erro ao realizar o login!");
-  //     }
-  //   }
-  // }
+  async function handleSignUp(formData: FormData) {
+    try {
+      if (formData.password !== formData.confirmPassword) {
+        showToast("error", "As senhas não coincidem!");
+        return;
+      } else if (formData.password === formData.confirmPassword) {
+        const response = await ApiBack.post("/users", {
+          nome: formData.name,
+          email: formData.email,
+          password: formData.password,
+        });
+        if (response) {
+          showToast("success", "Usuário cadastrado com sucesso!", "/signin");
+        }
+      }
+    } catch (err) {
+      if ((err as AxiosError)?.response?.status == 400) {
+        showToast("error", "E-mail ou senha inválidos, Tente novamente!");
+      } else {
+        showToast("error", "Ocorreu um erro ao realizar o login!");
+      }
+    }
+  }
 
   return (
     <Container
@@ -77,7 +82,7 @@ function SignUp() {
         <FormProvider {...methods}>
           <Box
             component="form"
-            // onSubmit={handleSubmit(handleLogin)}
+            onSubmit={handleSubmit(handleSignUp as SubmitHandler<FieldValues>)}
             noValidate
             sx={{
               mt: 8,
@@ -92,6 +97,15 @@ function SignUp() {
             gap={4}
           >
             <ControlledText
+              name="name"
+              control={control}
+              defaultValue=""
+              label="Nome"
+              fullWidth
+              size="medium"
+            />
+            <ControlledText
+              type="email"
               name="email"
               control={control}
               defaultValue=""
