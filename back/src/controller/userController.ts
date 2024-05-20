@@ -126,7 +126,7 @@ export const loginUser = async (req: Request, res: Response) => {
       expiresIn: "1h",
     });
 
-    res.json({ token });
+    res.json({ token, user });
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ error: error.message });
