@@ -53,9 +53,35 @@ export const updateCustomer = async (req: Request, res: Response) => {
 export const deleteCustomer = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    await prisma.customer.delete({
-      where: { id: Number(id) },
+    const customerId = Number(id);
+
+    await prisma.tracking.deleteMany({
+      where: { customerId },
     });
+
+    const customerVehicles = await prisma.customerVehicle.findMany({
+      where: { customerId },
+      select: { vehicleId: true },
+    });
+
+    const vehicleIds = customerVehicles.map((cv) => cv.vehicleId);
+
+    await prisma.tracking.deleteMany({
+      where: { vehicleId: { in: vehicleIds } },
+    });
+
+    await prisma.customerVehicle.deleteMany({
+      where: { vehicleId: { in: vehicleIds } },
+    });
+
+    await prisma.vehicle.deleteMany({
+      where: { id: { in: vehicleIds } },
+    });
+
+    await prisma.customer.delete({
+      where: { id: customerId },
+    });
+
     res.json({ message: "Customer deleted successfully" });
   } catch (error) {
     if (error instanceof Error) {
