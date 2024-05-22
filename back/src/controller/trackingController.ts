@@ -19,8 +19,16 @@ export const getAllTrackings = async (req: Request, res: Response) => {
 export const createTracking = async (req: Request, res: Response) => {
   try {
     const { vehicleId, latitude, longitude, userId, customerId } = req.body;
+
     const tracking = await prisma.tracking.create({
-      data: { vehicleId, latitude, longitude, userId, customerId },
+      data: {
+        vehicleId,
+        latitude: parseFloat(latitude),
+        longitude: parseFloat(longitude),
+        userId,
+        customerId,
+      },
+      include: { vehicle: true, customer: true },
     });
     res.json(tracking);
   } catch (error) {
