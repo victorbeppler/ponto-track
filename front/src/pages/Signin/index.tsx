@@ -13,31 +13,33 @@ import { useToast } from "../../context/ToastContext.js";
 import { AxiosError } from "axios";
 import LoadingButton from "../../shared/Buttons/LoadingButton.js";
 
+type FormData = {
+  email: string;
+  password: string;
+};
+
 function SignIn() {
   const methods = useForm();
   const { handleSubmit, control } = methods;
   const { showToast } = useToast();
 
-  async function handleLogin(formData: unknown) {
+  async function handleLogin(formData: FormData) {
     try {
-      const response = await ApiBack.post("/user/session", formData);
-
-      if (response?.data.success) {
-        const address = response.data.user.address[0];
+      const response = await ApiBack.post("/users/login", {
+        email: formData.email,
+        password: formData.password,
+      });
+      if (response?.data) {
         localStorage.setItem(
           "user",
           JSON.stringify({
             id: response?.data?.user?.id,
             name: response?.data?.user?.name,
             email: response?.data?.user?.email,
-            birthDate: response?.data?.user?.birthDate,
-            phone: response?.data?.user?.phone,
-            cpf: response?.data?.user?.cpf,
-            address: address,
             token: response?.data?.token,
           })
         );
-        showToast("success", "Login realizado com sucesso!", "/home");
+        showToast("success", "Login realizado com sucesso!");
       }
     } catch (err) {
       if ((err as AxiosError)?.response?.status == 400) {
