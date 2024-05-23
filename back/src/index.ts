@@ -23,7 +23,7 @@ app.use("/customers", customerRoutes);
 app.use("/vehicles", vehicleRoutes);
 app.use("/trackings", trackingRoutes);
 
-const PORT = 3005;
+const PORT = 7015;
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);

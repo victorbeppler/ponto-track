@@ -12,6 +12,19 @@ services:
       - "4005:3306"
     volumes:
       - new-mysql-data:/var/lib/mysql
+  api:
+    image: ponto-track-back
+    build: .
+    ports:
+      - "7015:7015"
+    restart: on-failure
+    container_name: ponto-track-back
+    command: npm run dev
+    volumes:
+      - .:/app
+      - /app/node_modules
+    env_file:
+      - .env
 
 volumes:
   new-mysql-data:

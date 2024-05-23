@@ -1,0 +1,13 @@
+version: '2.2'
+
+services:
+  frontend:
+    image: ponto-track-front
+    build: .
+    ports:
+      - "7010:7010"
+    restart: on-failure
+    container_name: ponto-track-front
+    volumes:
+      - .:/app
+      - /app/node_modules
