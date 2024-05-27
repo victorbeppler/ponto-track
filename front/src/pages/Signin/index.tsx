@@ -39,7 +39,7 @@ function SignIn() {
             token: response?.data?.token,
           })
         );
-        showToast("success", "Login realizado com sucesso!");
+        showToast("success", "Login realizado com sucesso!","/home");
       }
     } catch (err) {
       if ((err as AxiosError)?.response?.status == 400) {
